@@ -13,33 +13,16 @@ if (!fs.existsSync(publicDir)) {
 	fs.mkdirSync(publicDir);
 }
 
-// Test endpoint
-app.get("/test", (req, res) => {
-	res.json({ message: "API is working" });
-});
-
 app.post("/compile", (req, res) => {
 	const classes = req.body.classes;
-	const tempFile = path.join(publicDir, "temp.html");
+	const tempFile = path.join(publicDir, "temp.txt");
 
-	// Create valid HTML content
-	const htmlContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Temp</title>
-        </head>
-        <body>
-            <div class="${classes}"></div>
-        </body>
-        </html>
-    `;
+	// Write classes to a text file
+	fs.writeFileSync(tempFile, classes);
 
-	fs.writeFileSync(tempFile, htmlContent);
-
-	exec("npx tailwindcss -i public/temp.html -o public/tailwind.css --minify", (error, stdout, stderr) => {
+	// Tailwind CSS JIT mode command
+	const tailwindConfig = path.join(__dirname, "tailwind.config.js");
+	exec(`npx tailwindcss --input ${tempFile} --output public/tailwind.css --config ${tailwindConfig} --jit --purge ${tempFile}`, (error, stdout, stderr) => {
 		if (error) {
 			console.error(`Error: ${error.message}`);
 			console.error(`stderr: ${stderr}`);
@@ -54,6 +37,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
+
 app.get("/abrarqasim", (req, res) => {
 	res.json({ message: "Magical stuff comming soon!" });
 });
