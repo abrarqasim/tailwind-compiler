@@ -13,6 +13,17 @@ if (!fs.existsSync(publicDir)) {
 	fs.mkdirSync(publicDir);
 }
 
+app.get('/get-temp', (req, res) => {
+    const tempFile = path.join(publicDir, 'temp.txt');
+    fs.readFile(tempFile, 'utf8', (err, data) => {
+        if (err) {
+            console.error(`Error reading temp.txt: ${err.message}`);
+            return res.status(500).send('Error reading temp.txt');
+        }
+        res.send(data);
+    });
+});
+
 app.post("/compile", (req, res) => {
 	const classes = req.body.classes;
 	const tempFile = path.join(publicDir, "temp.txt");
