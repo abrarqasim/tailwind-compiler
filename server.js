@@ -21,6 +21,9 @@ app.post('/compile', (req, res) => {
         res.send(css);
     });
 });
+app.get('/abrarqasim', (req, res) => {
+    res.json({ message: 'API is working' });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
