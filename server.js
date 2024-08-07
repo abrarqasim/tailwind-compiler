@@ -29,7 +29,7 @@ const apiLimiter = rateLimit({
 		return req.ip;
 	},
 });
-app.use(apiLimiter);
+// app.use(apiLimiter);
 app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 3000;
