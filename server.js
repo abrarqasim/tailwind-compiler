@@ -1,5 +1,5 @@
 const express = require("express");
-const rateLimit = require('express-rate-limit');
+const rateLimit = require("express-rate-limit");
 const bodyParser = require("body-parser");
 const { exec } = require("child_process");
 const fs = require("fs");
@@ -8,11 +8,14 @@ const filterGutenbergClasses = require("./gutenbergClassFilter");
 const app = express();
 
 const apiLimiter = rateLimit({
-	windowMs: 1 * 60 * 1000, // 1 minute
+	windowMs: 15 * 60 * 1000, // 1 minute
 	max: 10, // Limit each IP to 60 requests per windowMs
 	message: "Ay yo!😰 Too many requests from this IP, please try again after a minute 😐",
+	keyGenerator: (req, res) => {
+		return req.ip; // Use req.ip which will respect the trust proxy setting
+	},
 });
-app.use("/compile/", apiLimiter);
+app.use(apiLimiter);
 app.use(bodyParser.json());
 const publicDir = path.join(__dirname, "public");
 if (!fs.existsSync(publicDir)) {
