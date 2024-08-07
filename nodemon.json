@@ -1,0 +1,5 @@
+{
+	"watch": ["server.js", "tailwind.config.js", "postcss.config.js", "*.js"],
+	"ext": "js,json,html,css",
+	"ignore": ["node_modules/*"]
+}
