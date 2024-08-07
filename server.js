@@ -13,7 +13,7 @@
  */
 
 const express = require("express");
-const rateLimit = require("express-rate-limit");
+// const rateLimit = require("express-rate-limit");
 const bodyParser = require("body-parser");
 const { exec } = require("child_process");
 const fs = require("fs");
@@ -21,14 +21,14 @@ const path = require("path");
 const filterGutenbergClasses = require("./gutenbergClassFilter");
 const app = express();
 
-const apiLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minute
-	max: 10,
-	message: "Ay yo!😰 Too many requests from this IP, please try again after a minute 😐",
-	keyGenerator: (req, res) => {
-		return req.ip;
-	},
-});
+// const apiLimiter = rateLimit({
+// 	windowMs: 15 * 60 * 1000, // 15 minute
+// 	max: 10,
+// 	message: "Ay yo!😰 Too many requests from this IP, please try again after a minute 😐",
+// 	keyGenerator: (req, res) => {
+// 		return req.ip;
+// 	},
+// });
 // app.use(apiLimiter); 
 app.use(bodyParser.json());
 
