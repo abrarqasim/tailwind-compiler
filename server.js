@@ -13,35 +13,26 @@
  */
 
 const express = require("express");
-// const rateLimit = require("express-rate-limit");
 const bodyParser = require("body-parser");
 const { exec } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const filterGutenbergClasses = require("./gutenbergClassFilter");
-const app = express();
-
-// const apiLimiter = rateLimit({
-// 	windowMs: 15 * 60 * 1000, // 15 minute
-// 	max: 10,
-// 	message: "Ay yo!😰 Too many requests from this IP, please try again after a minute 😐",
-// 	keyGenerator: (req, res) => {
-// 		return req.ip;
-// 	},
-// });
-// app.use(apiLimiter); 
-app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, "public");
 const TAILWIND_CONFIG = "./tailwind.config.js";
 const TEMP_FILE = path.join(PUBLIC_DIR, "temp.html");
+const app = express();
+
+app.use(bodyParser.json());
 
 if (!fs.existsSync(PUBLIC_DIR)) {
 	fs.mkdirSync(PUBLIC_DIR);
 }
 
 app.post("/compile", (req, res) => {
+	console.log("Request received! 🚀");
 	const content = req.body.classes;
 	if (!content) {
 		return res.status(400).send("Bad Request 💅🏽");

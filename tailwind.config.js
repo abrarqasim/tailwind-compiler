@@ -1,14 +1,12 @@
 module.exports = {
-    content: {
-        enabled: true,
-        content: ['./public/temp.html']
-    },
-    darkMode: false, // or 'media' or 'class'
+    content: [
+      "./public/*.html"
+    ],
     theme: {
-        extend: {},
+      extend: {},
     },
     variants: {
-        extend: {},
+      extend: {},
     },
     plugins: [],
-}
+  };
